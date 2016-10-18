@@ -15,7 +15,10 @@
 %%%%%%%%%%% Calibration of the encoder and the hardware for the specific
 %%%%%%%%%%% helicopter
 Joystick_gain_x = 1.5;
+%PD-controller: 
 Joystick_gain_y = -3;
+
+%Joystick_gain_y = -1.5;
 
 
 %%%%%%%%%%% Physical constants
@@ -30,15 +33,18 @@ m_p = 0.72; % Motor mass [kg]
 %% *----------------- Part I - Mathematical Modeling --------------------*
 
 %% |-- Task 5.1.2 - Linearization --|
-
+%V_s_star = 6.2673;
+V_s_star = 6.5;
+E_off = 0;
+K_f = -(g*(m_c*l_c-2*m_p*l_h))/(V_s_star*l_h);
 K_1 = K_f/(2*m_p*l_p);
 K_2 = (K_f*l_h)/(m_c*l_c^2+2*m_p*l_h^2);
 K_3 = g*(m_c*l_c-2*m_p*l_h)/(m_c*l_c^2+2*m_p*(l_h^2+l_p^2));
 %
 
 %% |-- Task 5.1.4 - Finding motor constant --|
-V_s_star = 6.2673;
-K_f = -(g*(m_c*l_c-2*m_p*l_h))/(V_s_star*l_h);
+% V_s_star = 6.2673;
+% K_f = -(g*(m_c*l_c-2*m_p*l_h))/(V_s_star*l_h);
 %K_f = 0.1594;
 %
 
@@ -58,9 +64,9 @@ K_pd = 2*Zeta*sqrt(K_pp/(K_1));
 s=tf('s');
 H_PD = (K_1*K_pd)/(s^2 + K_1*K_pd*s + K_1*K_pp);
 %margin(G)
-figure(1)
-step(H_PD)
-grid on 
+% figure(1)
+% step(H_PD)
+% grid on 
 
 %Open loop
 G_PD = (K_1*K_pp)/(s^2 + K_1*K_pp*s);
@@ -95,7 +101,7 @@ SYS_LQR = ss(A,B,C,D, 'StateName',{'p'; 'p_dot' ;'e_dot'}, ...
     'InputName', {'V_s';'V_d'}, 'OutputName', {'p';'e_dot'});
 
 Q = diag([100 30 100]);
-R = diag([1 1]);
+R = diag([0.1 1]);
 K = lqr(A,B,Q,R);
 
 P = inv(C*inv(B*K-A)*B);
@@ -110,8 +116,8 @@ SYS_LQR_I = ss(A_PI, B_PI, C_PI, D_PI, ...
     'StateName',{'p'; 'p_dot' ;'e_dot' ; 'gamma' ; 'zeta'}, ...
     'InputName', {'V_s';'V_d'}, 'OutputName', {'p';'e_dot'});
 
-Q_PI = diag([200 50 300 200 1000]);
-R_PI = diag([1 1]);
+Q_PI = diag([100 30 100 20 50]);
+R_PI = diag([0.1 1]);
 K_PI = lqr(A_PI,B_PI,Q_PI,R_PI);
 
 K_P_PI = K_PI(1:2,1:3);
@@ -130,19 +136,22 @@ D_L = 0;
 SYS_L = ss(A_L, B_L, C_L, D_L, ... 
     'StateName',{'p'; 'p_dot' ; 'e'; 'e_dot' ; 'h' ; 'h_dot'}, ...
     'InputName', {'V_s';'V_d'}, 'OutputName', {'p';'e';'h'});
-
-Q_L = diag([8 3 10 15 10 10]);
-%Q_L = diag([1 1 200 50 1 300]);
-R_L = diag([1 1]);
-K_L = lqr(A_L, B_L, Q_L, R_L);
 %
 
 %% |-- Oppgave 5.4.2 - Observer --|
-system_poles = eig(A_L-B_L*K_L);
+Q_L = diag([30 30 100 20 60]);
+R_L = diag([1 1]);
+K_L = lqr(A_PI,B_PI,Q_L,R_L);
+
+K_P_L = K_L(1:2,1:3);
+P_L = inv(C*inv(B*K_P_L-A)*B);
+
+
+system_poles = eig(A_PI-B_PI*K_L);
 
 r0 = max(abs(system_poles));
 
-fr = 5;
+fr = 15;
 phi = pi/8;
 r = r0*fr;
 
@@ -151,8 +160,36 @@ spread = -phi:(phi/(2.5)):phi;
 p=-r*exp(1i*spread);
 
 figure(2)
-plot(real(system_poles),imag(system_poles),'sr',real(p),imag(p),'kx');grid on; axis equal
+plot(real(system_poles),imag(system_poles),'sb',real(p),imag(p),'rx');grid on; axis equal
 
 L = transpose(place(transpose(A_L),transpose(C_L),p));
-%
+% 
 
+%% |-- Oppgave 5.4.3 - Bad Observer --|
+Q_B_L = diag([5 3 100 10 1]);
+R_B_L = diag([500 100]);
+K_B_L = lqr(A_PI,B_PI,Q_B_L,R_B_L);
+
+C_B_L = [0 0 1 0 0 0; 0 0 0 0 1 0];
+
+K_B_P_L = K_L(1:2,1:3);
+P_B_L = inv(C*inv(B*K_B_P_L-A)*B);
+
+
+system_poles_B = eig(A_PI-B_PI*K_B_L);
+
+r0_B = max(abs(system_poles));
+
+fr_B = 5;
+phi_B = pi/8;
+r_B = r0_B*fr_B;
+
+spread_B = -phi_B:(phi_B/(2.5)):phi_B;
+
+p_B=-r*exp(1i*spread_B);
+
+figure(2)
+plot(real(system_poles_B),imag(system_poles_B),'sb',real(p_B),imag(p_B),'rx');grid on; axis equal
+
+B_L = transpose(place(transpose(A_L),transpose(C_B_L),p_B));
+%
