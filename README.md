@@ -1,4 +1,4 @@
-# TTK4115 - Linear System Theory
+# [TTK4115 - Linear System Theory](http://www.ntnu.edu/studies/courses/TTK4115#tab=omEmnet)
 **Course content:** Theory for linear multivariable systems, state space models, discretization, canonical forms and realizations, Lyapunov stability, controllability and observability, state feedback, LQR control, state estimation, the Kalman filter, descriptions of stochastic processes and random signals. 
 
 In this course, we had two term projecs. I was in a group with two other students. The first project, the helicopter lab, counted 30% of the final grade, and the second project, the boat lab, counted 20%. Here's a brief description of the projects: 
