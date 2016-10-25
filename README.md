@@ -1,9 +1,9 @@
 # TTK4115 - Linear System Theory
-Theory for linear multivariable systems, state space models, discretization, canonical forms and realizations, Lyapunov stability, controllability and observability, state feedback, LQR control, state estimation, the Kalman filter, descriptions of stochastic processes and random signals. 
+**Course content:** Theory for linear multivariable systems, state space models, discretization, canonical forms and realizations, Lyapunov stability, controllability and observability, state feedback, LQR control, state estimation, the Kalman filter, descriptions of stochastic processes and random signals. 
 
 In this course, we had two term projecs. I was in a group with two other students. The first project, the helicopter lab, counted 30% of the final grade, and the second project, the boat lab, counted 20%. Here's a brief description of the projects: 
 
-# Helicopter lab
+## Helicopter lab
 The project was divded into four parts:
 
 * **PART I:** Mathematical Modeling
@@ -16,5 +16,5 @@ We were given an MATLAB code for initialization of the system, and a Simulink-mo
 
 We were pleased with the outcome of the term project, and feel that we've gained a good understanding of several control principles for linear systems. It was a demanding task that required quite a few hours to complete. 
 
-# Boat lab
+## Boat lab
 _we haven't started yet, will update_
