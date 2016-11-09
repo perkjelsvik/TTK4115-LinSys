@@ -21,16 +21,18 @@ w_2 = 0.05;
 figure(figNum)
 figNum = figNum + 1;
 subplot(2,1,1)
-plot(H_1(:,1),H_1(:,2))
-xlabel('t')
-ylabel('H_1(jw)')
-title('Sinus with \omega_1 = 0.005 without noise')
+plot(H_1(:,1),H_1(:,2), 'LineWidth', 3)
+xlabel('t [s]', 'FontSize', 18); ylabel('Sin($$\omega_{1}$$t)', ... 
+    'FontSize', 18, 'Interpreter', 'latex')
+title('Sinus-input where \omega_{1} = 0.005 for model without noise', 'FontSize', 24)
+set(gca,'FontSize',14); grid on;
 
 subplot(2,1,2)
-plot(H_2(:,1),H_2(:,2),'r')
-xlabel('t')
-ylabel('H_2(jw)')
-title('Sinus with \omega_2 = 0.05 without noise')
+plot(H_2(:,1),H_2(:,2),'r', 'LineWidth', 3)
+xlabel('t [s]', 'FontSize', 18); ylabel('Sin($$\omega_{2}$$t)', ... 
+    'Interpreter', 'latex', 'FontSize', 18);
+title('Sinus-input where \omega_2 = 0.05 for model without noise', 'FontSize', 24)
+set(gca,'FontSize',14); grid on;
 
 A_11 = max(H_1(3500:t,2));
 A_12 = min(H_1(3500:t,2));
@@ -55,16 +57,18 @@ t_E = length(H_1_E);
 figure(figNum)
 figNum = figNum + 1;
 subplot(2,1,1)
-plot(H_1_E(:,1),H_1_E(:,2))
-xlabel('t')
-ylabel('H_1(jw)')
-title('Sinus with \omega_1 = 0.005 with waves and noise')
+plot(H_1_E(:,1),H_1_E(:,2), 'LineWidth', 3)
+xlabel('t [s]', 'FontSize', 18); ylabel('Sin($$\omega_{1}$$t)', ...
+    'Interpreter', 'latex','FontSize', 18)
+title('Sinus-input where \omega_1 = 0.005 for model with waves and noise', 'FontSize', 24)
+set(gca,'FontSize',14); grid on;
 
 subplot(2,1,2)
-plot(H_2_E(:,1),H_2_E(:,2),'r')
-xlabel('t')
-ylabel('H_2(jw)')
-title('Sinus with \omega_2 = 0.05 with waves and noise')
+plot(H_2_E(:,1),H_2_E(:,2),'r', 'LineWidth', 1)
+xlabel('t [s]', 'FontSize', 18); ylabel('Sin($$\omega_{2}$$t)', ... 
+    'Interpreter', 'latex', 'FontSize', 18)
+title('Sinus where \omega_2 = 0.05 for model with waves and noise', 'FontSize', 24)
+set(gca,'FontSize',14), grid on;
 
 A_11_E = max(H_1_E(3500:t_E,2));
 A_12_E = min(H_1_E(3500:t_E,2));
@@ -92,16 +96,16 @@ load('step_simulink.mat')
 
 H_tf = tf(K, [T 1 0]);
 
-figure(figNum)
+figure(figNum);
 figNum = figNum + 1;
-subplot(2,1,1)
 H_tf_sim = step_simulink;
-plot(H_tf_sim(:,1),H_tf_sim(:,2),'r')
-title('Step Response of the ship')
-ylabel('Amplitude')
-xlabel('Time (seconds)')
-
-subplot(2,1,2)
 step(H_tf,length(H_tf_sim)/2)
-title('Step response of the model')
+hold on;
+plot(H_tf_sim(:,1),H_tf_sim(:,2),'r', 'LineWidth', 4)
+title('Step response of ship and model', 'FontSize', 24)
+legend({'$$Step_{model}$$', '$$Step_{ship}$$'}, 'FontSize', 36, ... 
+    'Interpreter', 'latex');
+grid on; hold off;
+xlabel('Time ','FontSize', 24); ylabel('Amplitude','FontSize', 24);
+set(gca,'FontSize',14)
 %

@@ -32,11 +32,12 @@ sim('task5_3_b.slx')
 
 figure(figNum)
 figNum = figNum+1;
-plot(t,sim_PSI_r,t,sim_compass, 'LineWidth',3);
-title('Autopilot without current and waves', 'FontSize', 18);
-xlabel('t', 'FontSize', 24); grid on;
-legend({'$$\psi_{r}(t)$$', '$$\psi(t)$$'}, 'Location', ... 
-    'east', 'FontSize', 36, 'Interpreter', 'latex')
+plot(t,sim_PSI_r,t,sim_compass, '--', 'LineWidth',3);
+title('Autopilot without current and waves', 'FontSize', 24);
+xlabel('t [s]', 'FontSize', 20); grid on;
+ylabel('$\mathbf{\psi_{r}(t), \ \psi(t)}$ [deg]', 'FontSize', 20, 'Interpreter', 'latex'); 
+legend({'$\psi_{r}(t)$', '$\psi(t)$'}, 'Location', ... 
+    'best', 'FontSize', 36, 'Interpreter', 'latex')
 %
 
 %% TASK 5.3.c --- Simulating with current
@@ -45,12 +46,13 @@ sim('task5_3_c.slx')
 
 figure(figNum)
 figNum = figNum + 1;
-plot(t,sim_PSI_r,t,sim_compass, 'LineWidth',3);
-axis([0 500 0 35]);grid on
-xlabel('t', 'FontSize', 24); 
-title('Autopilot with current, but without waves', 'FontSize', 18);
-legend({'$$\psi_{r}(t)$$', '$$\psi(t)$$'}, 'Location', ... 
-    'east', 'FontSize', 36, 'Interpreter', 'latex')
+plot(t,sim_PSI_r,t,sim_compass, '--', 'LineWidth',3);
+axis([0 500 0 35]); grid on
+xlabel('t [s]', 'FontSize', 20); 
+ylabel('$\mathbf{\psi_{r}(t), \ \psi(t)}$ [deg]', 'FontSize', 20, 'Interpreter', 'latex');
+title('Autopilot with current, but without waves', 'FontSize', 24);
+legend({'$\psi_{r}(t)$', '$\psi(t)$'}, 'Location', ... 
+    'best', 'FontSize', 36, 'Interpreter', 'latex')
 %
 
 %% TASK 5.3.d --- Simulating with current and waves
@@ -59,10 +61,11 @@ sim('task5_3_d.slx')
 
 figure(figNum)
 figNum = figNum + 1;
-plot(t,sim_PSI_r,t,sim_compass, 'LineWidth',3);
+plot(t,sim_PSI_r,t,sim_compass, '-.', 'LineWidth',3);
 axis([0 500 0 35]);grid on
-xlabel('t', 'FontSize', 24); 
-title('Autopilot with current and waves', 'FontSize', 18);
-legend({'$$\psi_{r}(t)$$', '$$\psi_{w}(t)$$'}, 'Location', ... 
-    'east', 'FontSize', 36, 'Interpreter', 'latex')
+xlabel('t [s]', 'FontSize', 20); 
+ylabel('$\mathbf{\psi_{r}(t), \ \psi(t)}$ [deg]', 'FontSize', 20, 'Interpreter', 'latex'); 
+title('Autopilot with current and waves', 'FontSize', 24);
+legend({'$\psi_{r}(t)$', '$\psi_{w}(t)$'}, 'Location', ... 
+    'best', 'FontSize', 36, 'Interpreter', 'latex')
 %
