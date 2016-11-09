@@ -66,6 +66,6 @@ axis([0 500 0 35]);grid on
 xlabel('t [s]', 'FontSize', 20); 
 ylabel('$\mathbf{\psi_{r}(t), \ \psi(t)}$ [deg]', 'FontSize', 20, 'Interpreter', 'latex'); 
 title('Autopilot with current and waves', 'FontSize', 24);
-legend({'$\psi_{r}(t)$', '$\psi_{w}(t)$'}, 'Location', ... 
+legend({'$\psi_{r}(t)$', '$\psi(t) + \psi_{w}(t)$'}, 'Location', ... 
     'best', 'FontSize', 36, 'Interpreter', 'latex')
 %

@@ -12,7 +12,7 @@ load('constants_5.3.mat')
 %% TASK 5.4.a ---- Finding A, B, C and E
 A_bw = [0 1 0 0 0; -omega_0^2 -2*lambda*omega_0 0 0 0; 0 0 0 1 0; ...
     0 0 0 -1/T -K/T; 0 0 0 0 0];
-B_bw = [0 0 0 K/T 0];
+B_bw = [0; 0; 0; K/T; 0];
 C_bw = [0 1 1 0 0];
 E_bw = [0 0; K_w 0; 0 0; 0 0; 0 1];
 %
