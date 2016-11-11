@@ -1,9 +1,13 @@
 %% Init
 close all
 clc
-clear all
+clear variables
 
-figNum = 1;
+figNum = 1;     % Figure number-counter
+PSI_r = 30;     % Reference angle for simulation
+sim_t = 500;    % Simulation time
+
+% Simulink models
 addpath('Simulink models tasks')
 %
 
@@ -25,14 +29,12 @@ grid on
 %
 
 %% TASK 5.3.b ---- Simulating without disturbances
-PSI_r = 30;
-sim_t = 500;
 load_system('task5_3_b.slx')
 sim('task5_3_b.slx')
 
 figure(figNum)
 figNum = figNum+1;
-plot(t,sim_PSI_r,t,sim_compass, '--', 'LineWidth',3);
+plot(t,sim_PSI_r, 'r--',t,sim_compass, 'LineWidth',3);
 title('Autopilot without current and waves', 'FontSize', 24);
 xlabel('t [s]', 'FontSize', 20); grid on;
 ylabel('$\mathbf{\psi_{r}(t), \ \psi(t)}$ [deg]', 'FontSize', 20, 'Interpreter', 'latex'); 
@@ -46,7 +48,7 @@ sim('task5_3_c.slx')
 
 figure(figNum)
 figNum = figNum + 1;
-plot(t,sim_PSI_r,t,sim_compass, '--', 'LineWidth',3);
+plot(t,sim_PSI_r, 'r--',t,sim_compass, 'LineWidth',3);
 axis([0 500 0 35]); grid on
 xlabel('t [s]', 'FontSize', 20); 
 ylabel('$\mathbf{\psi_{r}(t), \ \psi(t)}$ [deg]', 'FontSize', 20, 'Interpreter', 'latex');
@@ -61,11 +63,11 @@ sim('task5_3_d.slx')
 
 figure(figNum)
 figNum = figNum + 1;
-plot(t,sim_PSI_r,t,sim_compass, '-.', 'LineWidth',3);
+plot(t,sim_PSI_r,'r--',t,sim_compass, 'LineWidth',3);
 axis([0 500 0 35]);grid on
 xlabel('t [s]', 'FontSize', 20); 
 ylabel('$\mathbf{\psi_{r}(t), \ \psi(t)}$ [deg]', 'FontSize', 20, 'Interpreter', 'latex'); 
-title('Autopilot with current and waves', 'FontSize', 24);
+title('Autopilot with waves and without current', 'FontSize', 24);
 legend({'$\psi_{r}(t)$', '$\psi(t) + \psi_{w}(t)$'}, 'Location', ... 
     'best', 'FontSize', 36, 'Interpreter', 'latex')
 %

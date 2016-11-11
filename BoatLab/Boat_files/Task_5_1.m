@@ -1,7 +1,7 @@
 %% Init
-clear all
-clc
 close all
+clc
+clear variables
 
 figNum = 1;
 addpath('Data-files')

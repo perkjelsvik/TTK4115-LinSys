@@ -1,10 +1,11 @@
 %% Init
 close all
 clc
-clear all
+clear variables
 
 addpath('Data-files')
-% Constants from previous tasks witout disturbances
+
+% Constants from previous tasks (witout disturbances)
 load('constants_5.2.mat')
 load('constants_5.3.mat')
 %

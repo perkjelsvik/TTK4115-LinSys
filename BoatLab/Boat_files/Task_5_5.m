@@ -1,9 +1,11 @@
 %% Init
 close all
 clc
-clear all
+clear variables
 
-figNum = 1;
+figNum = 1;     % Figure number-counter
+PSI_r = 30;     % Reference angle for simulation
+sim_t = 500;    % Simulation time
 
 % Constants from previous tasks without disturbances
 addpath('Data-files')
@@ -15,6 +17,7 @@ addpath('Simulink models tasks')
 
 %% Task 5.5.a ---- Exact discretization
 % Matrices from Task 5.4.a
+
 A = [0 1 0 0 0; -omega_0^2 -2*lambda*omega_0 0 0 0; 0 0 0 1 0; ...
     0 0 0 -1/T -K/T; 0 0 0 0 0];
 B = [0; 0; 0; K/T; 0];
@@ -27,21 +30,18 @@ F_s = 10;
 T_s = 1/F_s;
 
 %Exact discretization
-[~, Bd] = c2d(A,B,T_s);    Cd = C;
+[~, Bd]  = c2d(A,B,T_s);    Cd = C;
 [Ad, Ed] = c2d(A,E,T_s);    Dd = D;
 %
 
 %% Task 5.5.b ---- Estimate of var(v)
-PSI_r = 30;
-sim_t = 500;
-
 load_system('task5_5_b.slx')
 sim('task5_5_b.slx')
 % R is the Measurment noise variance
-R = var(v*pi/180);
+R = var(sim_compass*pi/180);
 %
 
-%% Task 5.5.d ---- Discrete Kalman Filter
+%% Task 5.5.c ---- Discrete Kalman Filter
 % Q is the Process noise covariance
 Q = [30 0; 0 10^(-6)];
 P_0 = [1 0 0 0 0; 0 0.013 0 0 0; 0 0 pi^2 0 0; 0 0 0 1 0; 0 0 0 0 2.5*10^-4];
@@ -53,7 +53,7 @@ data = struct('Ad',Ad,'Bd',Bd,'Cd',Cd,'Ed', Ed, 'Q',Q,'R', R,'P_0',P_0, ...
               'X_0',X_0, 'I', I);
 %
 
-%% Task 5.5.e ---- Feed forward estimated bias
+%% Task 5.5.d ---- Feed forward estimated bias
 load_system('task5_5_d.slx')
 sim('task5_5_d.slx')
 
