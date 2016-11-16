@@ -6,8 +6,8 @@ if (isempty(init_flag))
     init_flag = 1;
     
     % Initialization for system
-    [A,B,C,E,Q,R,P_,x_, I] = deal(data.Ad,data.Bd,data.Cd,data.Ed,data.Q, ...
-                                data.R, data.P_0, data.X_0, data.I);
+    [A,B,C,E,Q,R,P_,x_, I] = deal(data.Ad,data.Bd,data.Cd,data.Ed, ...
+        data.Q, data.R, data.P_0, data.X_0, data.I);
 end
 
 % 1 - Compute the Kalman Gain
